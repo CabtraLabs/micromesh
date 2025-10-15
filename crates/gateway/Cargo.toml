@@ -1,0 +1,24 @@
+[package]
+name = "gateway"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[lib]
+name = "gateway"
+path = "src/lib.rs"
+
+[[bin]]
+name = "gateway"
+path = "src/main.rs"
+
+[dependencies]
+utils = { path = "../utils" }
+types = { path = "../types" }
+cluster = { path = "../cluster" }
+tokio.workspace = true
+axum.workspace = true
+serde_json.workspace = true
+chrono.workspace = true
+tower-http.workspace = true
+tracing.workspace = true

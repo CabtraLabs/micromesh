@@ -1,0 +1,16 @@
+[package]
+name = "types"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[lib]
+name = "types"
+path = "src/lib.rs"
+
+[dependencies]
+utils = { path = "../utils" }
+bitcode.workspace = true
+serde.workspace = true
+axum.workspace = true
+serde_json.workspace = true

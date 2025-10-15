@@ -1,0 +1,25 @@
+[package]
+name = "cluster"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[lib]
+name = "cluster"
+path = "src/lib.rs"
+
+[dependencies]
+types = { path = "../types" }
+utils = { path = "../utils" }
+anyhow.workspace = true
+zenoh.workspace = true
+tracing.workspace = true
+serde_json.workspace = true
+tokio.workspace = true
+tokio-util.workspace = true
+flume.workspace = true
+serde.workspace = true
+dashmap.workspace = true
+mimalloc.workspace = true
+async-channel.workspace = true
+bitcode.workspace = true
