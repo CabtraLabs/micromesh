@@ -1,6 +1,6 @@
 mod gateway;
 mod security;
-mod state;
+mod context;
 
 use std::{net::SocketAddr, sync::Arc};
 
@@ -8,10 +8,11 @@ use axum::{
     http::{header, HeaderName, HeaderValue, Method}, routing::{any, get}, Json, Router
 };
 use tower_http::cors::{AllowOrigin, CorsLayer};
+use traits::gateway::GatewayTraitRpcWrapper;
 
 use crate::{
     gateway::{handler_gateway, handler_websocket, GatewaytHandler},
-    security::middleware::security_headers_middleware, state::AppState,
+    security::middleware::security_headers_middleware, context::AppContext,
 };
 
 pub const FORWARDED_FOR_HEADER: &str = "x-forwarded-for";
@@ -40,7 +41,7 @@ async fn api_versions() -> Json<serde_json::Value> {
 pub async fn start() {
     utils::setup_env();
     
-    let state = Arc::new(AppState::new().await);
+    let ctx = Arc::new(AppContext::new().await);
 
     let trace_layer = tower_http::trace::TraceLayer::new_for_http()
         .make_span_with(|request: &axum::http::Request<_>| {
@@ -99,8 +100,8 @@ pub async fn start() {
 
     // start cluster node
     let node = {
-        let state = state.clone();
-        Arc::new(cluster::Node::new(state, GatewaytHandler).await)
+        let ctx = ctx.clone();
+        Arc::new(cluster::Node::new(ctx, GatewayTraitRpcWrapper(GatewaytHandler)).await)
     };
 
     let app = Router::new()

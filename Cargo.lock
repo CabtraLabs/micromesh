@@ -399,15 +399,18 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-channel",
+ "async-trait",
  "bitcode",
  "dashmap",
  "flume",
+ "macros",
  "mimalloc",
  "serde",
  "serde_json",
  "tokio",
  "tokio-util",
  "tracing",
+ "traits",
  "types",
  "utils",
  "zenoh",
@@ -1034,6 +1037,7 @@ dependencies = [
 name = "gateway"
 version = "0.1.0"
 dependencies = [
+ "async-trait",
  "axum",
  "chrono",
  "cluster",
@@ -1041,6 +1045,7 @@ dependencies = [
  "tokio",
  "tower-http",
  "tracing",
+ "traits",
  "types",
  "utils",
 ]
@@ -1669,6 +1674,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "08ab2867e3eeeca90e844d1940eab391c9dc5228783db2ed999acbc0a9ed375a"
 dependencies = [
  "twox-hash",
+]
+
+[[package]]
+name = "macros"
+version = "0.1.0"
+dependencies = [
+ "heck",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.106",
 ]
 
 [[package]]
@@ -3543,6 +3558,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "traits"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "bitcode",
+ "macros",
+ "serde",
+ "utils",
+ "zenoh",
+]
+
+[[package]]
 name = "tungstenite"
 version = "0.24.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3689,6 +3716,8 @@ checksum = "b6c140620e7ffbb22c2dee59cafe6084a59b5ffc27a8859a5f0d494b5d52b6be"
 name = "utils"
 version = "0.1.0"
 dependencies = [
+ "async-trait",
+ "bitcode",
  "chrono",
  "chrono-tz",
  "crc32fast",

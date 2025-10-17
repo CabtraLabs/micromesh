@@ -1,0 +1,17 @@
+[package]
+name = "traits"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[lib]
+name = "traits"
+path = "src/lib.rs"
+
+[dependencies]
+utils = { path = "../utils" }
+macros = { path = "../macros" }
+bitcode.workspace = true
+serde.workspace = true
+zenoh.workspace = true
+async-trait.workspace = true

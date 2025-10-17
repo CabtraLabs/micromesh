@@ -11,6 +11,7 @@ path = "src/lib.rs"
 [dependencies]
 types = { path = "../types" }
 utils = { path = "../utils" }
+traits = { path = "../traits" }
 anyhow.workspace = true
 zenoh.workspace = true
 tracing.workspace = true
@@ -23,3 +24,7 @@ dashmap.workspace = true
 mimalloc.workspace = true
 async-channel.workspace = true
 bitcode.workspace = true
+
+[dev-dependencies]
+macros = { path = "../macros" }
+async-trait.workspace = true

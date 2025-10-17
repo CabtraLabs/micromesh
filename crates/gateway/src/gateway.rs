@@ -2,36 +2,22 @@
 use std::sync::Arc;
 
 use axum::{body::Bytes, debug_handler, extract::{ws::WebSocket, Path, State, WebSocketUpgrade}, response::IntoResponse};
-use cluster::traits::StateTrait;
-use types::{ClusterRequest, ClusterResponse, ERROR_CODE_RPC_NOT_IMPLEMENTED};
+use traits::{app::ContextTrait, gateway::{GatewayTrait, GatewayTraitRpcWrapper}};
+use crate::context::AppContext;
 
-use crate::state::AppState;
 
 
 #[derive(Clone, Debug)]
 pub struct GatewaytHandler;
 
-pub type Node = cluster::Node<GatewaytHandler>;
+pub type Node = cluster::Node<GatewayTraitRpcWrapper<GatewaytHandler>>;
 
-impl cluster::traits::ServiceHandlerTrait for GatewaytHandler{
-    type State = AppState;
-
-    fn name(&self) -> &str {
-        "gateway"
-    }
-
-    async fn handle_rpc(&self, state: Arc<Self::State>, req: &ClusterRequest) -> types::Result<ClusterResponse> {
-        Ok(ClusterResponse{
-            zid: state.session().zid().to_string(),
-            status: 200,
-            payload: Some(
-                serde_json::to_vec(&ERROR_CODE_RPC_NOT_IMPLEMENTED).unwrap_or_default()
-            ),
-        })
-    }
-    async fn handle_push(&self, state: Arc<Self::State>, query: &ClusterRequest) -> types::Result<()> {
-        Ok(())
-    }
+#[async_trait::async_trait]
+impl GatewayTrait for GatewaytHandler{
+    type Context = AppContext;
+    async fn ping(&self, context: std::sync::Arc<Self::Context> ,zid:String) -> String {
+        context.session().zid().to_string()
+    } 
 }
 
 #[debug_handler]

@@ -2,7 +2,6 @@ use chrono::{Datelike, TimeZone};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 use crate::vars::get_env_var;
 pub use zenoh;
-
 pub mod vars;
 pub mod round_robin;
 pub mod xid;
